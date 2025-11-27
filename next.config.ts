@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 type NextConfigWithEslint = NextConfig & {
   eslint?: { ignoreDuringBuilds?: boolean };
+  typescript?: { ignoreBuildErrors?: boolean };
   images?: {
     unoptimized?: boolean;
   };

@@ -75,269 +75,34 @@ Traditional QR codes are **static and inflexible**:
 ## 🛠️ Tech Stack
 
 <div align="center">
+# 🚀 Re-Director — QR links + analytics (short & sweet)
 
-### **Frontend & UI**
+Re-Director turns printed QR codes into dynamic, trackable links. Create slugs, change targets without reprinting, and see who scanned what — fast and mobile-first. 📱🔗📊
 
-![Next.js](https://img.shields.io/badge/Next.js-16.0.5-000000?style=for-the-badge&logo=next.js)
-![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css)
+Why you'll love it
 
-### **Backend & Database**
+- Change targets anytime (no reprint)
+- Built-in analytics (device, country, daily trends)
+- Simple UI with dark mode and QR generation
 
-![Prisma](https://img.shields.io/badge/Prisma-5.22.0-2D3748?style=for-the-badge&logo=prisma)
-![SQLite](https://img.shields.io/badge/SQLite-3.0-003B57?style=for-the-badge&logo=sqlite)
+Quick start
 
-### **UI Components & Libraries**
+1. Install: `npm install`
+2. Dev DB: `npx prisma generate && npx prisma migrate dev`
+3. Run: `npm run dev` → open `http://localhost:3000`
 
-![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-Components-000000?style=for-the-badge)
-![Radix UI](https://img.shields.io/badge/Radix_UI-Components-000000?style=for-the-badge&logo=radix-ui)
-![Lucide React](https://img.shields.io/badge/Lucide_Icons-000000?style=for-the-badge&logo=lucide)
+How to use
 
-### **Development Tools**
+- Login (username + birthday)
+- Create a link (slug + URL)
+- Grab the QR, print it, and track scans in Analytics
 
-![ESLint](https://img.shields.io/badge/ESLint-9.0-4B32C3?style=for-the-badge&logo=eslint)
-![Turbopack](https://img.shields.io/badge/Turbopack-Fast_Bundler-000000?style=for-the-badge)
+Tech highlights
 
-</div>
+- Next.js (App Router), TypeScript, Tailwind, Prisma, Recharts
 
-### **Key Dependencies**
+Contribute
 
-- **📦 Next.js 16** - React framework with App Router
-- **🎨 TailwindCSS 4.0** - Utility-first CSS framework
-- **🗄️ Prisma ORM** - Type-safe database access
-- **📱 shadcn/ui** - Modern component library
-- **🔗 qrcode** - QR code generation library
-- **✅ Zod** - Schema validation
-- **🎭 next-themes** - Theme management
-- **📊 recharts** - Data visualization
+- Fork → branch → PR. Keep changes focused and type-safe.
 
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- **Node.js** 18+ ([Download here](https://nodejs.org/))
-- **npm** or **yarn** package manager
-
-### Installation
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/StarDust130/Re-Director.git
-   cd re-director
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   ```
-
-3. **Set up the database**
-
-   ```bash
-   # Generate Prisma client
-   npx prisma generate
-
-   # Run database migrations
-   npx prisma migrate dev --name init
-   ```
-
-4. **Seed sample data** (optional)
-
-   ```bash
-   npm run db:seed
-   ```
-
-5. **Start the development server**
-
-   ```bash
-   npm run dev
-   ```
-
-6. **Open your browser**
-   - Navigate to [http://localhost:3000](http://localhost:3000)
-   - Create an account and start creating dynamic links!
-
----
-
-## 📖 Usage Guide
-
-### Creating Your First Link
-
-1. **Login** with any username and birthday
-2. **Navigate to Dashboard** via the top navigation
-3. **Click "Create Link"** to add a new redirect
-4. **Enter a slug** (e.g., `summer-sale`) and target URL
-5. **Generate QR Code** and download for printing
-
-### Managing Links
-
-- **Edit URLs** anytime without changing QR codes
-- **View Analytics** to track performance
-- **Monitor Trends** with interactive charts
-- **Export Data** for reporting
-
-### Understanding Analytics
-
-- **📊 Total Scans** - Overall engagement metrics
-- **🌍 Geographic Data** - Where your audience is located
-- **📱 Device Breakdown** - Mobile vs desktop usage
-- **📈 Daily Trends** - Performance over time
-
----
-
-## 🏗️ Project Structure
-
-```
-re-director/
-├── 📁 app/                          # Next.js App Router
-│   ├── 📄 layout.tsx               # Root layout with theme provider
-│   ├── 📄 page.tsx                 # Landing page
-│   ├── 📁 dashboard/               # Link management dashboard
-│   ├── 📁 create/                  # Create new link page
-│   ├── 📁 edit/[id]/               # Edit link page
-│   ├── 📁 qr/[id]/                 # QR code display page
-│   ├── 📁 analytics/[id]/          # Analytics dashboard
-│   ├── 📁 r/[slug]/                # Redirect route handler
-│   └── 📁 actions/                 # Server actions
-├── 📁 components/                  # React components
-│   ├── 📁 ui/                      # shadcn/ui components
-│   ├── 📄 Navbar.tsx               # Navigation component
-│   └── 📄 AuthGuard.tsx            # Route protection
-├── 📁 lib/                         # Utility libraries
-│   ├── 📄 prisma.ts                # Database client
-│   └── 📄 auth.ts                  # Authentication utilities
-├── 📁 prisma/                      # Database schema & migrations
-│   ├── 📄 schema.prisma            # Database models
-│   └── 📄 seed.ts                  # Sample data
-└── 📄 package.json                 # Dependencies & scripts
-```
-
----
-
-## 🔧 API Reference
-
-### Redirect Endpoint
-
-```
-GET /r/[slug]
-```
-
-Redirects to the target URL and records analytics data.
-
-**Parameters:**
-
-- `slug` (string) - The unique link identifier
-
-**Response:**
-
-- `302` - Redirect to target URL
-- `404` - Link not found
-
-### Server Actions
-
-- `createLink()` - Create a new redirect link
-- `updateLink()` - Update an existing link
-- `deleteLink()` - Remove a link
-- `getLinks()` - Fetch user's links
-
----
-
-## 🌐 Environment Variables
-
-Create a `.env.local` file in the root directory:
-
-```env
-# Database
-DATABASE_URL="file:./dev.db"
-
-# Application
-NEXT_PUBLIC_BASE_URL="http://localhost:3000"
-
-# Optional: Analytics
-NEXT_PUBLIC_ANALYTICS_ID="your-analytics-id"
-```
-
----
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-
-1. **Connect your repository** to Vercel
-2. **Add environment variables** in Vercel dashboard
-3. **Deploy automatically** on every push
-
-### Other Platforms
-
-```bash
-# Build for production
-npm run build
-
-# Start production server
-npm start
-```
-
-### Database Considerations
-
-- **Development:** SQLite (file-based)
-- **Production:** Consider PostgreSQL, MySQL, or Supabase
-- **Update DATABASE_URL** in environment variables
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
-### Development Guidelines
-
-- Follow TypeScript best practices
-- Use conventional commit messages
-- Test your changes thoroughly
-- Update documentation as needed
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- **Next.js Team** for the amazing framework
-- **shadcn** for the beautiful UI components
-- **Prisma Team** for the excellent ORM
-- **Vercel** for hosting and deployment platform
-
----
-
-## 📞 Support & Contact
-
-- **📧 Email:** [your-email@example.com](mailto:your-email@example.com)
-- **🐛 Issues:** [GitHub Issues](https://github.com/StarDust130/Re-Director/issues)
-- **💬 Discussions:** [GitHub Discussions](https://github.com/StarDust130/Re-Director/discussions)
-
----
-
-<div align="center">
-
-**Made with ❤️ by [StarDust130](https://github.com/StarDust130)**
-
-⭐ **Star this repo** if you find it useful!
-
-[⬆️ Back to Top](#-re-director)
-
-</div>
+License: MIT • Made with ❤️ by StarDust130
