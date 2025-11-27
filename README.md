@@ -1,22 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Re-Director
+
+A dynamic QR-based URL redirector built with Next.js 16, TypeScript, and TailwindCSS.
+
+## Features
+
+- Create dynamic links with unique slugs (/r/[slug])
+- Change target URLs anytime without regenerating QR codes
+- Generate and download QR codes
+- Track analytics: total scans, device types, countries
+- Mobile-first responsive UI with dark/light mode
+- Clean, minimal design using shadcn/ui components
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript
+- **Styling:** TailwindCSS + shadcn/ui
+- **Database:** Prisma + SQLite
+- **QR Generation:** qrcode npm package
+- **Validation:** Zod
+- **Icons:** Lucide React
 
 ## Getting Started
 
-First, run the development server:
+1. Install dependencies:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+   ```bash
+   npm install
+   ```
+
+2. Set up the database:
+
+   ```bash
+   npx prisma migrate dev --name init
+   npx prisma generate
+   ```
+
+3. Seed sample data (optional):
+
+   ```bash
+   npm run db:seed
+   ```
+
+4. Run the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Project Structure
+
+```
+app/
+├── actions/          # Server actions for CRUD operations
+├── analytics/[id]/   # Analytics page for each link
+├── create/           # Create new link page
+├── dashboard/        # Dashboard listing all links
+├── edit/[id]/        # Edit link page
+├── qr/[id]/          # QR code display page
+├── r/[slug]/         # Redirect route handler
+├── layout.tsx        # Root layout with theme provider
+└── page.tsx          # Landing page
+
+components/
+├── ui/               # shadcn/ui components
+├── CreateLinkForm.tsx
+├── EditLinkForm.tsx
+├── LinkCard.tsx
+├── Navbar.tsx
+└── QRCodeCard.tsx
+
+lib/
+└── prisma.ts         # Prisma client instance
+
+prisma/
+├── schema.prisma     # Database schema
+└── seed.ts           # Sample data seeder
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## API Routes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `GET /r/[slug]` - Redirect to target URL and record analytics
+- Server actions handle CRUD operations for links
+
+## Environment Variables
+
+Create a `.env` file in the root directory:
+
+```
+DATABASE_URL="file:./dev.db"
+NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+```
+
+## Deployment
+
+1. Build the application:
+
+   ```bash
+   npm run build
+   ```
+
+2. Start the production server:
+   ```bash
+   npm start
+   ```
+
+For deployment to platforms like Vercel, ensure the database is accessible (consider using a hosted database like Supabase for production).
+
+## License
+
+MIT
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
