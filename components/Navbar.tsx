@@ -5,13 +5,22 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { Moon, Sun, QrCode, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getUser, logout, isLoggedIn } from "@/lib/client/auth";
-
+import { getUser, isLoggedIn, logout } from "@/lib/client/auth";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const router = useRouter();
-  const user = getUser();
+  const [user, setUserState] = useState(() => getUser());
+
+  useEffect(() => {
+    const onAuth = () => setUserState(getUser());
+    // update initial state (in case of SSR mismatch)
+    onAuth();
+    window.addEventListener("authChange", onAuth as EventListener);
+    return () =>
+      window.removeEventListener("authChange", onAuth as EventListener);
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -21,7 +30,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+    <nav className="border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-14 sm:h-16 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">

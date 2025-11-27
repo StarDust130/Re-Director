@@ -8,10 +8,17 @@ export function getUser(): User | null {
 
 export function setUser(user: User): void {
   localStorage.setItem("user", JSON.stringify(user));
+  // notify other parts of the app in the same tab
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("authChange"));
+  }
 }
 
 export function logout(): void {
   localStorage.removeItem("user");
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("authChange"));
+  }
 }
 
 export function isLoggedIn(): boolean {

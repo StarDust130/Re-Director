@@ -11,20 +11,9 @@ import {
   Calendar,
 } from "lucide-react";
 import AuthGuard from "@/components/AuthGuard";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-} from "recharts";
+// Import the client-only charts component directly. It contains `"use client"`
+// so Next will treat it as a client component and won't run it on the server.
+import AnalyticsCharts from "@/components/AnalyticsCharts";
 import { getLinks } from "@/app/actions/links";
 
 async function getLinkWithAnalytics(id: string) {
@@ -188,77 +177,12 @@ export default async function AnalyticsPage({
           </Card>
         </div>
 
-        {/* Charts */}
-        <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2 mb-6 sm:mb-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Device Distribution</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={250}>
-                <PieChart>
-                  <Pie
-                    data={deviceChartData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={({ name, percent }) =>
-                      `${name} ${percent ? (percent * 100).toFixed(0) : 0}%`
-                    }
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    {deviceChartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.fill} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Top Countries</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={250}>
-                <BarChart data={countryChartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="value" fill="#8884d8" />
-                </BarChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Daily Scans Chart */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Daily Scans (Last 7 Days)</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={250}>
-              <LineChart data={dailyScans}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="scans"
-                  stroke="#8884d8"
-                  strokeWidth={2}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
+        {/* Charts (client-only) */}
+        <AnalyticsCharts
+          deviceChartData={deviceChartData}
+          countryChartData={countryChartData}
+          dailyScans={dailyScans}
+        />
 
         {/* Recent Scans */}
         <Card>
