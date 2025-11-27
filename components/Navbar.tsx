@@ -5,7 +5,8 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { Moon, Sun, QrCode, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getUser, logout, isLoggedIn } from "@/lib/auth";
+import { getUser, logout, isLoggedIn } from "@/lib/client/auth";
+
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
@@ -14,6 +15,8 @@ export default function Navbar() {
 
   const handleLogout = () => {
     logout();
+    // Also clear cookie
+    document.cookie = "user=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     router.push("/login");
   };
 

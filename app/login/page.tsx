@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { QrCode, AlertCircle } from "lucide-react";
-import { setUser, isLoggedIn, getOrCreateUser } from "@/lib/auth";
+import { isLoggedIn, setUser } from "@/lib/client/auth";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -44,16 +44,24 @@ export default function LoginPage() {
     }
 
     try {
-      const user = await getOrCreateUser(username.trim(), birthday);
-      if (!user) {
-        setError(
-          "Invalid credentials. Please check your username and birthday."
-        );
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: username.trim(), birthday }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data?.error || "Invalid credentials. Please try again.");
         setIsLoading(false);
         return;
       }
 
-      setUser(user);
+      setUser(data);
+      // Also set cookie for server-side authentication
+      document.cookie = `user=${encodeURIComponent(
+        JSON.stringify(data)
+      )}; path=/; max-age=86400`; // 24 hours
       router.push("/dashboard");
     } catch (error) {
       console.error("Login error:", error);

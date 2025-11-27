@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { isLoggedIn } from "@/lib/auth";
+import { isLoggedIn } from "@/lib/client/auth";
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -12,9 +12,16 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoggedIn()) {
-      router.push("/login");
-    }
+    const checkAuth = () => {
+      const hasLocalStorage = isLoggedIn();
+      const hasCookie = document.cookie.includes("user=");
+
+      if (!hasLocalStorage && !hasCookie) {
+        router.push("/login");
+      }
+    };
+
+    checkAuth();
   }, [router]);
 
   if (!isLoggedIn()) {
