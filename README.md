@@ -13,7 +13,6 @@
 
 _Transform static QR codes into powerful, updatable marketing tools with real-time insights!_
 
-[Demo](#) | [Documentation](#) | [Contributing](#contributing)
 
 </div>
 
