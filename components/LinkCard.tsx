@@ -1,10 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Edit, Trash2, QrCode, BarChart3, ExternalLink } from "lucide-react";
+import {
+  Edit,
+  Trash2,
+  QrCode,
+  BarChart3,
+  ExternalLink,
+  Copy,
+} from "lucide-react";
 import { deleteLink } from "@/app/actions/links";
 import { useRouter } from "next/navigation";
 
@@ -23,6 +31,18 @@ export default function LinkCard({ link }: LinkCardProps) {
   const shortUrl = `${
     process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
   }/r/${link.slug}`;
+
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(shortUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      alert("Failed to copy the URL. Please copy it manually.");
+    }
+  };
 
   const handleDelete = async () => {
     if (confirm("Are you sure you want to delete this link?")) {
@@ -68,6 +88,18 @@ export default function LinkCard({ link }: LinkCardProps) {
               <BarChart3 className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
               <span className="hidden sm:inline">Analytics</span>
             </Link>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleCopy}
+            className="text-xs"
+          >
+            <Copy className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+            <span className="hidden sm:inline">
+              {copied ? "Copied!" : "Copy"}
+            </span>
+            <span className="sm:hidden">{copied ? "✓" : "Copy"}</span>
           </Button>
           <Button
             variant="outline"
