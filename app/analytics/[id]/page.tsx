@@ -117,16 +117,18 @@ export default async function AnalyticsPage({
 
   return (
     <AuthGuard>
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Analytics for {link.slug}</h1>
-          <p className="text-muted-foreground">
+      <div className="container mx-auto px-4 py-6 sm:py-8">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">
+            Analytics for {link.slug}
+          </h1>
+          <p className="text-muted-foreground text-sm sm:text-base">
             Track how your link is performing.
           </p>
         </div>
 
         {/* Overview Cards */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
+        <div className="grid gap-4 sm:gap-6 grid-cols-2 lg:grid-cols-4 mb-6 sm:mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Scans</CardTitle>
@@ -187,13 +189,13 @@ export default async function AnalyticsPage({
         </div>
 
         {/* Charts */}
-        <div className="grid gap-6 md:grid-cols-2 mb-8">
+        <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2 mb-6 sm:mb-8">
           <Card>
             <CardHeader>
               <CardTitle>Device Distribution</CardTitle>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={250}>
                 <PieChart>
                   <Pie
                     data={deviceChartData}
@@ -222,7 +224,7 @@ export default async function AnalyticsPage({
               <CardTitle>Top Countries</CardTitle>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={countryChartData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
@@ -241,7 +243,7 @@ export default async function AnalyticsPage({
             <CardTitle>Daily Scans (Last 7 Days)</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={250}>
               <LineChart data={dailyScans}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />

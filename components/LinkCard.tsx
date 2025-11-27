@@ -50,33 +50,44 @@ export default function LinkCard({ link }: LinkCardProps) {
           <p className="text-sm text-muted-foreground mb-1">Short URL</p>
           <p className="text-sm font-mono break-all">{shortUrl}</p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" size="sm" asChild>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          <Button variant="outline" size="sm" asChild className="text-xs">
             <Link href={`/edit/${link.id}`}>
-              <Edit className="h-4 w-4 mr-1" />
-              Edit
+              <Edit className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+              <span className="hidden sm:inline">Edit</span>
             </Link>
           </Button>
-          <Button variant="outline" size="sm" asChild>
+          <Button variant="outline" size="sm" asChild className="text-xs">
             <Link href={`/qr/${link.id}`}>
-              <QrCode className="h-4 w-4 mr-1" />
-              QR
+              <QrCode className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+              <span className="hidden sm:inline">QR</span>
             </Link>
           </Button>
-          <Button variant="outline" size="sm" asChild>
+          <Button variant="outline" size="sm" asChild className="text-xs">
             <Link href={`/analytics/${link.id}`}>
-              <BarChart3 className="h-4 w-4 mr-1" />
-              Analytics
+              <BarChart3 className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+              <span className="hidden sm:inline">Analytics</span>
             </Link>
           </Button>
-          <Button variant="outline" size="sm" onClick={handleDelete}>
-            <Trash2 className="h-4 w-4 mr-1" />
-            Delete
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleDelete}
+            className="text-xs text-destructive hover:text-destructive"
+          >
+            <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+            <span className="hidden sm:inline">Delete</span>
           </Button>
-          <Button variant="outline" size="sm" asChild>
+          <Button
+            variant="outline"
+            size="sm"
+            asChild
+            className="text-xs col-span-2 sm:col-span-1"
+          >
             <a href={shortUrl} target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="h-4 w-4 mr-1" />
-              Test
+              <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+              <span className="hidden sm:inline">Test Link</span>
+              <span className="sm:hidden">Test</span>
             </a>
           </Button>
         </div>
