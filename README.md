@@ -31,20 +31,6 @@ Re-Director empowers marketers, event organizers, and businesses to create dynam
 
 ---
 
-## 🖼️ Screenshots
-
-<div align="center">
-
-![Dashboard](https://via.placeholder.com/800x400?text=Dashboard+Screenshot)  
-_Dashboard with analytics charts and link management_
-
-![QR Code](https://via.placeholder.com/400x400?text=QR+Code+Example)  
-_Generated QR code ready for download_
-
-</div>
-
----
-
 ## 🛠️ Installation
 
 Get started in minutes! Follow these steps:
