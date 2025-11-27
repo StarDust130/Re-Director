@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Link {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  targetUrl String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  scanCount Int      @default(0)
+  scans     Scan[]
+}
+
+model Scan {
+  id         String   @id @default(cuid())
+  linkId     String
+  link       Link     @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  deviceType String?
+  country    String?
+  timestamp  DateTime @default(now())
+}
