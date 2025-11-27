@@ -219,7 +219,7 @@ export default async function AnalyticsPage({
                       {scan.country}
                     </Badge>
                   </div>
-                  <span className="text-muted-foreground text-xs ml-2 flex-shrink-0">
+                  <span className="text-muted-foreground text-xs ml-2 shrink-0">
                     {new Date(scan.timestamp).toLocaleString()}
                   </span>
                 </div>
