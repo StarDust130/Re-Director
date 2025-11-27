@@ -25,9 +25,24 @@ import {
   LineChart,
   Line,
 } from "recharts";
+import { getLinks } from "@/app/actions/links";
 
 async function getLinkWithAnalytics(id: string) {
-  return await prisma.link.findUnique({
+  const result = await getLinks();
+
+  if (!result.success || !result.links) {
+    return null;
+  }
+
+  // Find the specific link that belongs to the current user
+  const link = result.links.find((link) => link.id === id);
+
+  if (!link) {
+    return null;
+  }
+
+  // Get full analytics data for this link
+  const linkWithScans = await prisma.link.findUnique({
     where: { id },
     include: {
       scans: {
@@ -36,6 +51,8 @@ async function getLinkWithAnalytics(id: string) {
       },
     },
   });
+
+  return linkWithScans;
 }
 
 export default async function AnalyticsPage({

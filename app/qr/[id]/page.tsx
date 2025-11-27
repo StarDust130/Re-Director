@@ -1,12 +1,17 @@
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/prisma";
 import QRCodeCard from "@/components/QRCodeCard";
 import AuthGuard from "@/components/AuthGuard";
+import { getLinks } from "@/app/actions/links";
 
 async function getLink(id: string) {
-  return await prisma.link.findUnique({
-    where: { id },
-  });
+  const result = await getLinks();
+
+  if (!result.success || !result.links) {
+    return null;
+  }
+
+  // Find the specific link that belongs to the current user
+  return result.links.find((link) => link.id === id) || null;
 }
 
 export default async function QRPage({

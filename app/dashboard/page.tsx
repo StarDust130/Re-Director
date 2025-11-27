@@ -1,20 +1,33 @@
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Edit, Trash2, QrCode, BarChart3 } from "lucide-react";
 import LinkCard from "@/components/LinkCard";
 import AuthGuard from "@/components/AuthGuard";
-
-async function getLinks() {
-  return await prisma.link.findMany({
-    orderBy: { createdAt: "desc" },
-  });
-}
+import { getLinks } from "@/app/actions/links";
 
 export default async function Dashboard() {
-  const links = await getLinks();
+  const result = await getLinks();
+
+  if (!result.success) {
+    return (
+      <AuthGuard>
+        <div className="container mx-auto px-4 py-8">
+          <Card className="text-center py-12">
+            <CardContent>
+              <div className="text-red-500 mb-4">⚠️ Error loading links</div>
+              <p className="text-muted-foreground">
+                Please try refreshing the page.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </AuthGuard>
+    );
+  }
+
+  const links = result.links || [];
 
   return (
     <AuthGuard>

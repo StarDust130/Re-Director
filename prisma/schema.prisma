@@ -9,6 +9,14 @@ datasource db {
   provider = "sqlite"
 }
 
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  birthday  DateTime
+  createdAt DateTime @default(now())
+  links     Link[]
+}
+
 model Link {
   id        String   @id @default(cuid())
   slug      String   @unique
@@ -16,6 +24,8 @@ model Link {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   scanCount Int      @default(0)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   scans     Scan[]
 }
 
