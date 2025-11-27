@@ -6,11 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  // For local development we'll use a SQLite file.
-  // In production (Vercel) set `DATABASE_URL` to your Postgres/managed DB
-  // and update this datasource accordingly if you switch providers.
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
