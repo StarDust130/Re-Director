@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { useRouter } from "next/navigation";
-import { Moon, Sun, QrCode, LogOut, User } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+import { Moon, Sun, QrCode, LogOut, User, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getUser, isLoggedIn, logout } from "@/lib/client/auth";
 import { useState, useEffect } from "react";
@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const router = useRouter();
+  const pathname = usePathname();
   const [user, setUserState] = useState(() => getUser());
 
   useEffect(() => {
@@ -33,10 +34,24 @@ export default function Navbar() {
     <nav className="border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-14 sm:h-16 items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
-            <QrCode className="h-5 w-5 sm:h-6 sm:w-6" />
-            <span className="font-bold text-lg sm:text-xl">Re-Director</span>
-          </Link>
+          <div className="flex items-center space-x-2">
+            {pathname !== "/" && pathname !== "/dashboard" && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => router.back()}
+                className="h-8 px-2"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2 sm:mr-0" />
+                <span className="hidden sm:inline">Back</span>
+                <span className="sr-only">Go back</span>
+              </Button>
+            )}
+            <Link href="/" className="flex items-center space-x-2">
+              <QrCode className="h-5 w-5 sm:h-6 sm:w-6" />
+              <span className="font-bold text-lg sm:text-xl">Re-Director</span>
+            </Link>
+          </div>
 
           <div className="flex items-center space-x-2 sm:space-x-4">
             {isLoggedIn() ? (

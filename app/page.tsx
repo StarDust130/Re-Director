@@ -1,8 +1,21 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { QrCode, Zap, BarChart3, Smartphone } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { isLoggedIn } from "@/lib/client/auth";
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoggedIn()) {
+      router.push("/dashboard");
+    }
+  }, [router]);
+
   return (
     <div className="container mx-auto px-4 py-16">
       {/* Hero Section */}
