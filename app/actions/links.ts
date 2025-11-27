@@ -17,7 +17,7 @@ const createLinkSchema = z.object({
 
 // Helper function to get current user from cookies
 async function getCurrentUser() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const userCookie = cookieStore.get("user");
 
   if (!userCookie) {

@@ -266,33 +266,42 @@ export default async function AnalyticsPage({
             <CardTitle>Recent Scans</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2 max-h-96 overflow-y-auto">
+            <div className="space-y-2 max-h-64 sm:max-h-96 overflow-y-auto">
               {link.scans.slice(0, 50).map((scan) => (
                 <div
                   key={scan.id}
-                  className="flex justify-between items-center text-sm p-2 rounded border"
+                  className="flex justify-between items-center text-xs sm:text-sm p-2 rounded border"
                 >
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-1 sm:space-x-2 flex-1 min-w-0">
                     {scan.deviceType === "mobile" && (
-                      <Smartphone className="h-4 w-4" />
+                      <Smartphone className="h-3 w-3 sm:h-4 sm:w-4 shrink-0" />
                     )}
                     {scan.deviceType === "desktop" && (
-                      <Monitor className="h-4 w-4" />
+                      <Monitor className="h-3 w-3 sm:h-4 sm:w-4 shrink-0" />
                     )}
                     {scan.deviceType === "tablet" && (
-                      <Tablet className="h-4 w-4" />
+                      <Tablet className="h-3 w-3 sm:h-4 sm:w-4 shrink-0" />
                     )}
-                    <span className="capitalize">{scan.deviceType}</span>
-                    <span className="text-muted-foreground">from</span>
-                    <Badge variant="outline">{scan.country}</Badge>
+                    <span className="capitalize truncate">
+                      {scan.deviceType}
+                    </span>
+                    <span className="text-muted-foreground hidden sm:inline">
+                      from
+                    </span>
+                    <Badge
+                      variant="outline"
+                      className="text-xs px-1 py-0 shrink-0"
+                    >
+                      {scan.country}
+                    </Badge>
                   </div>
-                  <span className="text-muted-foreground">
+                  <span className="text-muted-foreground text-xs ml-2 flex-shrink-0">
                     {new Date(scan.timestamp).toLocaleString()}
                   </span>
                 </div>
               ))}
               {link.scans.length === 0 && (
-                <p className="text-center text-muted-foreground py-8">
+                <p className="text-center text-muted-foreground py-6 sm:py-8 text-sm">
                   No scans yet. Share your QR code to start tracking!
                 </p>
               )}
